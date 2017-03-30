@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['vps385999.ovh.net']
 # Application definition
 
 INSTALLED_APPS = [
+    'sfv.apps.SfvConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
