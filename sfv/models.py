@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
 
 from django.db import models
@@ -26,15 +24,15 @@ class Fight(models.Model):
     opponent =  models.ForeignKey(Character, on_delete=models.CASCADE)
     
     def __str__(self):
-        display = str(d)
+        display = str(self.fight_date)
         display = display + ": "
         index = 0
-        if result == 'W':
+        if self.result == 'W':
             index = 0
-        elif result == 'L':
+        elif self.result == 'L':
             index = 1
         else:
             index = 2
-        display = display + FIGHT_RESULT[index][1] + " versus " + opponent
+        display = display + self.FIGHT_RESULT[index][1] + " versus " + str(self.opponent)
         return display
 
