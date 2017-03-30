@@ -1,6 +1,6 @@
 <h1>{{ character.name }}</h1>
 <ul>
 {% for fight in character.fight_set.all %}
-    <li>{{fight.outcome()}} {{ fight.fight_date }}</li>
+    <li>{{fight.outcome}} {{ fight.fight_date }}</li>
 {% endfor %}
 </ul>
