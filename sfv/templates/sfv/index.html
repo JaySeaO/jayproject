@@ -1,7 +1,7 @@
 {% if latest_fight_list %}
     <ul>
     {% for fight in latest_fight_list %}
-        <li>{{fight.fight_date}}: {{fight.result}} contre <a href="/sfv/{{ fight.opponent.id }}/">{{ fight.opponent }}</a></li>
+        <li>{{fight.fight_date}}: {{fight.outcome()}} contre <a href="/sfv/{{ fight.opponent.id }}/">{{ fight.opponent }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

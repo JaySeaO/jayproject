@@ -26,6 +26,10 @@ class Fight(models.Model):
     def __str__(self):
         display = str(self.fight_date)
         display = display + ": "
+        display = display + self.outcome() + " versus " + str(self.opponent)
+        return display
+
+    def outcome(self):
         index = 0
         if self.result == 'W':
             index = 0
@@ -33,6 +37,6 @@ class Fight(models.Model):
             index = 1
         else:
             index = 2
-        display = display + self.FIGHT_RESULT[index][1] + " versus " + str(self.opponent)
-        return display
+        return self.FIGHT_RESULT[index][1]
+
 
