@@ -29,6 +29,7 @@ class Fight(models.Model):
         display = display + self.outcome() + " versus " + str(self.opponent)
         return display
 
+    @property
     def outcome(self):
         index = 0
         if self.result == 'W':
