@@ -9,6 +9,20 @@ class Character(models.Model):
     def __str__(self):
         return self.name
 
+    def history(self):
+        #Win, Loss, Draw
+        results = [0, 0, 0]
+        fights = self.fight_set.all()
+        for fight in fights:
+            if fight.result == 'W':
+                results[0] = results[0] +1
+            elif fight.result == 'L':
+                results[1] = results[1] +1
+            else:
+                results[2] = results[2] +1
+        
+        return results
+
 class Fight(models.Model):
     WIN  = 'W'
     LOSS = 'L'
@@ -39,5 +53,4 @@ class Fight(models.Model):
         else:
             index = 2
         return self.FIGHT_RESULT[index][1]
-
 
