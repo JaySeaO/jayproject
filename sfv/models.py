@@ -14,12 +14,8 @@ class Character(models.Model):
         results = [0, 0, 0]
         fights = self.fight_set.all()
         for fight in fights:
-            if fight.result == 'W':
-                results[0] = results[0] +1
-            elif fight.result == 'L':
-                results[1] = results[1] +1
-            else:
-                results[2] = results[2] +1
+            index = Fight.indexFromResult(fight.result)
+            results[index] = results[index] + 1
         
         return results
 
@@ -53,4 +49,27 @@ class Fight(models.Model):
         else:
             index = 2
         return self.FIGHT_RESULT[index][1]
-
+    
+    @classmethod
+    def indexFromResult(cls, result):
+        index = 0
+        if result == 'W':
+            index = 0
+        elif result == 'L':
+            index = 1
+        else:
+            index = 2
+        return index
+    
+    @classmethod
+    def history(cls):
+        results = {}
+        fights = Fight.objects.all()
+        for fight in fights:
+            name = fight.opponent.name
+            index = Fight.indexFromResult(fight.result)
+            if name not in results:
+                results[name] = [0, 0, 0]
+            results[name][index] = results[name][index] + 1
+        
+        return results
