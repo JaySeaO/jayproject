@@ -13,7 +13,7 @@ def index(request):
     selected_outcome = ""
     try:
         character_id = request.POST['character']
-        selected_outcome = request.Post['outcome']
+        selected_outcome = request.POST['outcome']
     except (KeyError):
         valid_request = False
 
@@ -67,7 +67,7 @@ def fight_result(request, character_id):
     error_occured = False
     error_message = ""
     try:
-        selected_outcome = request.Post['outcome']
+        selected_outcome = request.POST['outcome']
     except (KeyError):
         error_occured = True
         error_message = "Please select a valid outcome."
