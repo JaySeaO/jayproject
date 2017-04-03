@@ -52,7 +52,10 @@ def index(request):
     # Always return an HttpResponseRedirect after successfully dealing
     # with POST data. This prevents data from being posted twice if a
     # user hits the Back button.
-    return HttpResponseRedirect(reverse('sfv:index'))
+    if valid_request:
+        return HttpResponseRedirect(reverse('sfv:index'))
+    else:
+        return render(request, 'sfv/index.html', context)
 
 def detail(request, character_id):
     character = get_object_or_404(Character, pk=character_id)
