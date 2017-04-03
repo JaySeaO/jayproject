@@ -59,31 +59,33 @@ def index(request):
 
 def detail(request, character_id):
     character = get_object_or_404(Character, pk=character_id)
-    return render(request, 'sfv/detail.html', {'character': character})
 
-def fight_result(request, character_id):
-    character = get_object_or_404(Character, pk=character_id)
-    
     error_occured = False
     error_message = ""
+
+    valid_request = True
+
     try:
         selected_outcome = request.POST['outcome']
     except (KeyError):
-        error_occured = True
-        error_message = "Please select a valid outcome."
-    else:
+       valid_request = False
+
+    if valid_request:
         if selected_outcome != "W" and selected_outcome != "L" and selected_outcome != "D":
             error_occured = True
             error_message = "Please select a valid outcome."
+
+    context = {
+        "character": character
+    }
+
     if error_occured:
-        return render(request, 'sfv/detail.html', {'character': character})
-    
-    fight = Fight(result = selected_outcome, fight_date=timezone.now(), opponent=character)
-    fight.save()
-    
-    # Always return an HttpResponseRedirect after successfully dealing
-    # with POST data. This prevents data from being posted twice if a
-    # user hits the Back button.
-    return HttpResponseRedirect(reverse('sfv:detail', args=(character.id)))
-    
-    
+        context.error_message = error_message
+        return render(request, 'sfv/detail.html', context)
+
+    if valid_request:
+        fight = Fight(result = selected_outcome, fight_date=timezone.now(), opponent=character)
+        fight.save()
+        return HttpResponseRedirect(reverse('sfv:detail', args=(character.id)))
+    else
+        return render(request, 'sfv/detail.html', context)
