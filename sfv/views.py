@@ -5,55 +5,51 @@ from django.utils import timezone
 from .models import Character, Fight
 
 def index(request):
-    latest_fight_list =  Fight.objects.order_by('-fight_date')[:10]
-    characters = Character.objects.all()
-    context = {
-        'latest_fight_list': latest_fight_list,
-        'characters': characters
-    }
-    
-    return render(request, 'sfv/index.html', context)
+    valid_request = True
 
-def result(request):
-    error_occured = False
-    error_message = ""
-    #checking POST parameters
+    character_id = 0
+    selected_outcome = ""
     try:
-        selected_character = Character.objects.get(pk=request.POST['character'])
-    except (KeyError, Character.DoesNotExist):
+        character_id = request.POST['character']
+        selected_outcome = request.Post['outcome']
+    except (KeyError):
+        valid_request = False
+
+    if valid_request:
+        selected_character = Character.objects.get(pk=character_id)
+    except (Character.DoesNotExist):
         error_occured = True
         error_message = "Please select a valid character."
     else:
-        try:
-            selected_outcome = request.Post['outcome']
-        except (KeyError):
+        if selected_outcome != "W" and selected_outcome != "L" and selected_outcome != "D":
             error_occured = True
             error_message = "Please select a valid outcome."
-        else:
-            if selected_outcome != "W" and selected_outcome != "L" and selected_outcome != "D":
-                error_occured = True
-                error_message = "Please select a valid outcome."
-        
-    #display home
-    latest_fight_list =  Fight.objects.order_by('-fight_date')[:10]
+
+    #list of all characters
+    characters = Character.objects.all()
     context = {
-        'latest_fight_list': latest_fight_list
+        'characters': characters
     }
-    
+
     #an error occured add an error message
     if error_occured:
+        latest_fight_list =  Fight.objects.order_by('-fight_date')[:10]
         context["error_message"] = error_message
+        context["latest_fight_list"] = latest_fight_list
         return render(request, 'sfv/index.html', context)
-    
+
     #no error create fight and save it
-    fight = Fight(result = selected_outcome, fight_date=timezone.now(), opponent=selected_character)
-    fight.save()
+    if valid_request:
+        fight = Fight(result = selected_outcome, fight_date=timezone.now(), opponent=selected_character)
+        fight.save()
+
+    latest_fight_list =  Fight.objects.order_by('-fight_date')[:10]
+    context["latest_fight_list"] = latest_fight_list
     
     # Always return an HttpResponseRedirect after successfully dealing
     # with POST data. This prevents data from being posted twice if a
     # user hits the Back button.
     return HttpResponseRedirect(reverse('sfv:index'))
-    
 
 def detail(request, character_id):
     character = get_object_or_404(Character, pk=character_id)
