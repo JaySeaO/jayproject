@@ -16,14 +16,15 @@ def index(request):
         valid_request = False
 
     if valid_request:
-        selected_character = Character.objects.get(pk=character_id)
-    except (Character.DoesNotExist):
-        error_occured = True
-        error_message = "Please select a valid character."
-    else:
-        if selected_outcome != "W" and selected_outcome != "L" and selected_outcome != "D":
+        try:
+            selected_character = Character.objects.get(pk=character_id)
+        except (Character.DoesNotExist):
             error_occured = True
-            error_message = "Please select a valid outcome."
+            error_message = "Please select a valid character."
+        else:
+            if selected_outcome != "W" and selected_outcome != "L" and selected_outcome != "D":
+                error_occured = True
+                error_message = "Please select a valid outcome."
 
     #list of all characters
     characters = Character.objects.all()
@@ -45,7 +46,7 @@ def index(request):
 
     latest_fight_list =  Fight.objects.order_by('-fight_date')[:10]
     context["latest_fight_list"] = latest_fight_list
-    
+
     # Always return an HttpResponseRedirect after successfully dealing
     # with POST data. This prevents data from being posted twice if a
     # user hits the Back button.
