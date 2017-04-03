@@ -23,7 +23,7 @@ def result(request):
     except (KeyError, Character.DoesNotExist):
         error_occured = True
         error_message = "Please select a valid character."
-    else
+    else:
         try:
             selected_outcome = request.Post['outcome']
         except (KeyError):
