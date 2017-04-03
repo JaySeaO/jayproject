@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 
@@ -7,7 +7,7 @@ from .models import Character, Fight
 def index(request):
     valid_request = True
     error_occured = False
-    
+
     character_id = 0
     selected_outcome = ""
     try:
