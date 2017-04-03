@@ -12,9 +12,9 @@ def index(request):
     character_id = 0
     selected_outcome = ""
     try:
-        character_id = request.POST['character']
+        character_id = int(request.POST['character'])
         selected_outcome = request.POST['outcome']
-    except (KeyError):
+    except (KeyError, ValueError):
         valid_request = False
 
     if valid_request:
