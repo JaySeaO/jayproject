@@ -34,9 +34,7 @@ class Fight(models.Model):
     opponent =  models.ForeignKey(Character, on_delete=models.CASCADE)
     
     def __str__(self):
-        display = str(self.fight_date)
-        display = display + ": "
-        display = display + self.outcome() + " versus " + str(self.opponent)
+        display = self.outcome() + " versus " + self.opponent.name
         return display
 
     @property
