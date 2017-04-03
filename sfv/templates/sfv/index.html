@@ -1,3 +1,23 @@
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'sfv:result' %}" method="post">
+{%csrf_token %}
+    <select id="character" name="character">
+        <option value="" selected>Bagarre contre ?</option>
+        {% for character in characters %}
+        <option value="{{ character.id }}">{{character.name}}</option>
+        {% endfor %}
+    </select>
+    <select id="outcome" name="outcome">
+        <option value="" selected>Résultat ?</option>
+        <option value="W">Victoire</option>
+        <option value="L">Défaite</option>
+        <option value="D">Egalité</option>
+    </select>
+    <input type="submit" value="Valider" />
+</form>
+
 {% if latest_fight_list %}
     <ul>
     {% for fight in latest_fight_list %}
