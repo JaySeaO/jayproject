@@ -6,7 +6,8 @@ from .models import Character, Fight
 
 def index(request):
     valid_request = True
-
+    error_occured = False
+    
     character_id = 0
     selected_outcome = ""
     try:
