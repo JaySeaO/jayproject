@@ -86,6 +86,6 @@ def detail(request, character_id):
     if valid_request:
         fight = Fight(result = selected_outcome, fight_date=timezone.now(), opponent=character)
         fight.save()
-        return HttpResponseRedirect(reverse('sfv:detail', args=(character.id)))
+        return HttpResponseRedirect(reverse('sfv:detail', args=(character.id,)))
     else:
         return render(request, 'sfv/detail.html', context)
