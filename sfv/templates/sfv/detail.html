@@ -2,7 +2,7 @@
 
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-<form action="{% url 'sfv:fight_result' %}" method="post">
+<form action="{% url 'sfv:detail' %}" method="post">
 {%csrf_token %}
     <select id="outcome" name="outcome">
         <option value="" selected>Résultat ?</option>
