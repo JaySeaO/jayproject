@@ -80,7 +80,7 @@ def detail(request, character_id):
     }
 
     if error_occured:
-        context.error_message = error_message
+        context["error_message"] = error_message
         return render(request, 'sfv/detail.html', context)
 
     if valid_request:
