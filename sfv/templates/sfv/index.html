@@ -2,7 +2,7 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'sfv:index' %}" method="post">
-{%csrf_token %}
+{% csrf_token %}
     <select id="character" name="character">
         <option value="" selected>Bagarre contre ?</option>
         {% for character in characters %}

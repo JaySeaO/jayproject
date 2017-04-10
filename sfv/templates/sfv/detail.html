@@ -3,7 +3,7 @@
 {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
 <form action="{% url 'sfv:detail' character.id %}" method="post">
-{%csrf_token %}
+{% csrf_token %}
     <select id="outcome" name="outcome">
         <option value="" selected>Résultat ?</option>
         <option value="W">Victoire</option>
